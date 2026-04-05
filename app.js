@@ -601,7 +601,7 @@ function renderHome() {
   const dayIdx = new Date().getDate() % TRUTHS.length;
   const truth = TRUTHS[dayIdx];
   const td = truth[lang];
-  document.getElementById('dailyCard').innerHTML = `
+  (document.getElementById('dailyCard')||{}).innerHTML= `
     <div class="daily-label">${t.dailyLabel}</div>
     <div class="daily-title">${td.title}</div>
     <div class="daily-body">${td.reality}</div>
@@ -623,7 +623,7 @@ function renderHome() {
     {icon:'🏆',tab:'quiz',title:t.tabQuiz,desc:lang==='ar'?'خرافة أم حقيقة؟':lang==='fr'?'Mythe ou fait ?':'Myth or fact?'},
     {icon:'📖',tab:'about',title:t.tabAbout,desc:lang==='ar'?'عن الكتاب والمؤلف':lang==='fr'?'Le livre et l\'auteur':'Book & author'},
   ];
-  document.getElementById('homeGrid').innerHTML = sections.map(s => `
+  (document.getElementById('homeGrid')||{}).innerHTML= sections.map(s => `
     <div class="home-card" onclick="document.querySelector('[data-tab=${s.tab}]').click()">
       <span class="hc-icon">${s.icon}</span>
       <div class="hc-title">${s.title}</div>
@@ -664,7 +664,7 @@ function renderTruths() {
       </div>
     </div>`;
   }).join('');
-  document.getElementById('truthsContainer').innerHTML = searchBar + cards;
+  (document.getElementById('truthsContainer')||{}).innerHTML= searchBar + cards;
 }
 
 function filterTruths(query) {
@@ -692,7 +692,7 @@ async function shareTruth(idx) {
 // ═══════════════ RENDER: MYTHS (Flip Cards) ═══════════════
 function renderMyths() {
   const t = T[lang];
-  document.getElementById('mythsContainer').innerHTML = TRUTHS.map((truth, i) => {
+  (document.getElementById('mythsContainer')||{}).innerHTML= TRUTHS.map((truth, i) => {
     const d = truth[lang];
     return `
     <div class="myth-flip-card scroll-reveal" onclick="this.classList.toggle('flipped');markCardRead(${truth.id})">
@@ -851,7 +851,7 @@ function showQuizResults() {
   const xp = loadXP(); xp.quizDone = true; saveXP(xp); checkBadges();
   const result = document.getElementById('quizResult');
   result.classList.remove('hidden');
-  document.getElementById('quizContainer').innerHTML = '';
+  (document.getElementById('quizContainer')||{}).innerHTML= '';
   result.innerHTML = `
     <div class="qr-emoji">${emoji}</div>
     <div class="qr-score">${quizState.score}/${total} (${pct}%)</div>
@@ -905,7 +905,7 @@ function renderAbout() {
     }
   };
   const a = about[lang];
-  document.getElementById('aboutContainer').innerHTML = `
+  (document.getElementById('aboutContainer')||{}).innerHTML= `
     <div class="about-disclaimer"><div class="about-disclaimer-title">${a.disclaimerTitle}</div><p>${a.disclaimer}</p></div>
     <div class="about-author"><span class="about-author-icon">📚</span><div class="about-author-info"><div class="about-author-name">${a.authorName}</div><div class="about-author-dates">${a.authorDates}</div><div class="about-author-bio">${a.authorBio}</div></div></div>
     <div class="about-section"><div class="about-section-title">${a.bookTitle}</div><p class="about-text">${a.bookDesc}</p></div>
@@ -939,12 +939,12 @@ function renderHelp() {
       {title:'🤝 Contribuer',body:'GitHub : github.com/abourdim/qadhaaif-al-haqq'},
     ]
   };
-  document.getElementById('helpBody').innerHTML = help[lang].map(h => `<div class="help-item"><div class="help-item-title">${h.title}</div><div>${h.body}</div></div>`).join('');
+  (document.getElementById('helpBody')||{}).innerHTML= help[lang].map(h => `<div class="help-item"><div class="help-item-title">${h.title}</div><div>${h.body}</div></div>`).join('');
 }
 
 // ═══════════════ RENDER: DUAS ═══════════════
 function renderDuas() {
-  document.getElementById('duaPanelContent').innerHTML = DUAS.map(d => {
+  (document.getElementById('duaPanelContent')||{}).innerHTML= DUAS.map(d => {
     const dd = d[lang];
     return `<div class="dua-item"><div class="dua-item-label">${dd.label}</div><div class="dua-item-ar">${dd.text}</div><div class="dua-item-tr">${dd.tr}</div></div>`;
   }).join('');
