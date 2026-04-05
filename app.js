@@ -460,8 +460,11 @@ function updateXPDisplay() {
   const level = Math.floor(xp.points / 100) + 1;
   const progress = xp.points % 100;
   const xpBar = document.getElementById('xpBar');
+  if (!xpBar) return;
   const xpText = document.getElementById('xpText');
+  if (!xpText) return;
   const badgeRow = document.getElementById('badgeRow');
+  if (!badgeRow) return;
   if (xpBar) xpBar.style.width = progress + '%';
   if (xpText) xpText.textContent = `${T[lang].levelLabel} ${level} — ${xp.points} ${T[lang].xpLabel}`;
   if (badgeRow) {
@@ -479,6 +482,7 @@ function toggleAgeMode() {
   localStorage.setItem('qh-age', ageMode);
   document.body.classList.toggle('young-mode', ageMode === 'young');
   const btn = document.getElementById('ageModeBtn');
+  if (!btn) return;
   if (btn) btn.textContent = ageMode === 'young' ? T[lang].youngMode : T[lang].teenMode;
   showToast(ageMode === 'young' ? T[lang].youngMode : T[lang].teenMode);
   renderAll();
@@ -516,7 +520,9 @@ function renderAll() {
 function initSplash() {
   let count = 5;
   const el = document.getElementById('splashCount');
+  if (!el) return;
   const featuresEl = document.getElementById('splashFeatures');
+  if (!featuresEl) return;
   if (featuresEl) {
     featuresEl.innerHTML = T[lang].splashFeatures.map((f, i) =>
       `<div class="splash-feature" style="animation-delay:${0.3 + i * 0.3}s">${f}</div>`
@@ -530,6 +536,7 @@ function initSplash() {
 }
 function dismissSplash() {
   const s = document.getElementById('splash');
+  if (!s) return;
   if (s) { s.classList.add('hidden'); setTimeout(() => s.style.display = 'none', 500); }
   playSound('click');
 }
@@ -553,9 +560,11 @@ function setLang(l) {
   set('quizTitle', t.quizTitle); set('quizDesc', t.quizDesc);
   set('helpTitle', t.helpTitle); set('duaPanelTitle', t.duaPanelTitle);
   const ageBtn = document.getElementById('ageModeBtn');
+  if (!ageBtn) return;
   if (ageBtn) ageBtn.textContent = ageMode === 'young' ? t.youngMode : t.teenMode;
   renderAll();
   const featuresEl = document.getElementById('splashFeatures');
+  if (!featuresEl) return;
   if (featuresEl) {
     featuresEl.innerHTML = T[l].splashFeatures.map((f, i) =>
       `<div class="splash-feature" style="animation-delay:${0.3 + i * 0.3}s">${f}</div>`
@@ -571,6 +580,7 @@ function setTheme(t) {
   localStorage.setItem('qh-theme', t);
   const idx = themes.indexOf(t);
   const el = document.getElementById('themeIcon');
+  if (!el) return;
   if (el) el.textContent = themeIcons[idx];
 }
 function cycleTheme() {
@@ -609,6 +619,7 @@ function renderHome() {
   `;
   // XP bar
   const xpSection = document.getElementById('xpSection');
+  if (!xpSection) return;
   if (xpSection) {
     xpSection.innerHTML = `
       <div class="xp-bar-wrap"><div class="xp-bar" id="xpBar"></div></div>
@@ -719,6 +730,7 @@ let quizState = { index: 0, score: 0, answers: [], used5050: false, usedHint: fa
 function renderQuiz() {
   const t = T[lang];
   const container = document.getElementById('quizContainer');
+  if (!container) return;
   quizState = { index: 0, score: 0, answers: [], used5050: false, usedHint: false, usedRef: false };
   container.innerHTML = `
     <div class="quiz-start-card">
@@ -741,6 +753,7 @@ function startQuiz() {
 function showQuizQuestion() {
   const t = T[lang];
   const container = document.getElementById('quizContainer');
+  if (!container) return;
   const q = QUIZ_DATA[quizState.index];
   const qd = q[lang];
   const total = QUIZ_DATA.length;
@@ -777,12 +790,15 @@ function answerQuiz(answeredFact) {
 
   // Visual feedback
   const mythBtn = document.getElementById('qMythBtn');
+  if (!mythBtn) return;
   const factBtn = document.getElementById('qFactBtn');
+  if (!factBtn) return;
   if (q.isFact) { factBtn.classList.add('correct'); mythBtn.classList.add('wrong'); }
   else { mythBtn.classList.add('correct'); factBtn.classList.add('wrong'); }
   mythBtn.disabled = true; factBtn.disabled = true;
 
   const feedback = document.getElementById('quizFeedback');
+  if (!feedback) return;
   feedback.classList.remove('hidden');
   feedback.innerHTML = `<div class="${correct?'feedback-correct':'feedback-wrong'}">${correct?t.quizCorrect:t.quizWrong}</div>`;
 
@@ -816,6 +832,7 @@ function useHint() {
   quizState.usedHint = true;
   const q = QUIZ_DATA[quizState.index];
   const feedback = document.getElementById('quizFeedback');
+  if (!feedback) return;
   feedback.classList.remove('hidden');
   feedback.innerHTML = `<div class="feedback-hint">🤲 ${q[lang].hint}</div>`;
   playSound('click');
@@ -826,6 +843,7 @@ function useRef() {
   quizState.usedRef = true;
   const q = QUIZ_DATA[quizState.index];
   const feedback = document.getElementById('quizFeedback');
+  if (!feedback) return;
   feedback.classList.remove('hidden');
   feedback.innerHTML = `<div class="feedback-ref">📖 ${q.ref}</div>`;
   playSound('click');
@@ -850,6 +868,7 @@ function showQuizResults() {
   addXP(20, lang==='ar'?'إكمال الاختبار':lang==='fr'?'Quiz termine':'Quiz completed');
   const xp = loadXP(); xp.quizDone = true; saveXP(xp); checkBadges();
   const result = document.getElementById('quizResult');
+  if (!result) return;
   result.classList.remove('hidden');
   (document.getElementById('quizContainer')||{}).innerHTML= '';
   result.innerHTML = `
@@ -971,13 +990,16 @@ function initKeyboardNav() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       const helpPanel = document.getElementById('helpPanel');
+      if (!helpPanel) return;
       if (!helpPanel.classList.contains('hidden')) { toggleHelp(); return; }
       const duaPanel = document.getElementById('duaPanel');
+      if (!duaPanel) return;
       if (!duaPanel.classList.contains('hidden')) { toggleDuaPanel(); return; }
       document.querySelectorAll('.truth-card.open').forEach(c => c.classList.remove('open'));
     }
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
       const truthsPanel = document.getElementById('panel-truths');
+      if (!truthsPanel) return;
       if (!truthsPanel || !truthsPanel.classList.contains('active')) return;
       if (document.activeElement && document.activeElement.id === 'truthsSearch') return;
       e.preventDefault();
