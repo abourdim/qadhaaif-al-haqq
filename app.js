@@ -719,6 +719,7 @@ let quizState = { index: 0, score: 0, answers: [], used5050: false, usedHint: fa
 function renderQuiz() {
   const t = T[lang];
   const container = document.getElementById('quizContainer');
+  if (!container) return;
   quizState = { index: 0, score: 0, answers: [], used5050: false, usedHint: false, usedRef: false };
   container.innerHTML = `
     <div class="quiz-start-card">
@@ -741,6 +742,7 @@ function startQuiz() {
 function showQuizQuestion() {
   const t = T[lang];
   const container = document.getElementById('quizContainer');
+  if (!container) return;
   const q = QUIZ_DATA[quizState.index];
   const qd = q[lang];
   const total = QUIZ_DATA.length;
